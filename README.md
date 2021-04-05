@@ -1,6 +1,6 @@
 # MPLSL3VPN
-MPLSL3VPN this setup invloves setting up MPLS L3 VPN using Ansible Playbooks
-We have 2 Playbooks.
+The following setup involves using 2 playbooks in configuring an MPLS L3 VPN topology.
+
 1. prouters.yml
 
    The P routers Ansible Playbook consists of multiple roles to allow us reuse roles across the entire topology.
