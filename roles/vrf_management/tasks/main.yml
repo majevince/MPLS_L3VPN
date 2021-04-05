@@ -1,0 +1,4 @@
+---
+# tasks file for vrf_management
+- name: " TASK Main: Including Device Specific Tasks"
+  include_tasks: "{{ device_os }}.yml"

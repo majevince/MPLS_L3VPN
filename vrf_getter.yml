@@ -1,0 +1,22 @@
+---
+- hosts: perouters
+  tasks:
+    - name: "Gettting VRF configuration information from PE Routers"
+      ios_command:
+        commands: "show running-config"
+      register: vrf_result
+
+    - name: Print out VRF output information
+      debug:
+        msg: "{{ vrf_result['stdout'][0] }}"
+
+    - name: create a directory for router configurations
+      file:
+        path: "config_outputs"
+        state: directory
+      run_once: true
+
+    - name: Write configutations to out files
+      copy:
+        content: "{{ vrf_result['stdout'][0] }}\n"
+        dest: "config_outputs/{{ inventory_hostname }}.txt"

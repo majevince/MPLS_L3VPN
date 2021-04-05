@@ -1,0 +1,12 @@
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: cisco.ios.ios
+ansible_user: admin
+ansible_password: admin
+ansible_become: yes
+ansible_become_method: enable
+ansible_become_password: admin
+
+net_role: provider edge routers
+net_location: Abuja
+net_location_site_id: ABCD-0001-EFGH-001
+net_location_site: Wuse

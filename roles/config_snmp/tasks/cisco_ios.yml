@@ -1,0 +1,14 @@
+- name: Get model of switch and os version | Register
+  cisco.ios.ios_command:
+    commands:
+      - enable
+      - configure terminal
+      - show version
+  register: snmp.stdout
+
+- name: Depending on switch version and os version set snmp configs
+  cisco.ios.ios_command:
+    commands:
+    - enable
+    - configure terminal
+    - snmp-server host "{{ snmp_server_host }}" informs version 2c "{{ snmp_community_string }}"

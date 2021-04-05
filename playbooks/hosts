@@ -1,0 +1,15 @@
+[master]
+master
+[lb]
+haproxylb1
+haproxylb2
+[web]
+node1
+node2
+node3
+node4
+node5
+node6
+[db]
+node5
+node6

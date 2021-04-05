@@ -1,0 +1,18 @@
+---
+- hosts: controller
+  become: true
+  vars:
+    asn: 1001
+    vrf_forwarding:
+      - name: GigabitEthernet2
+        vrf: RED
+      - name: GigabitEthernet3
+        vrf: BLUE
+
+  tasks:
+    - name: file print out config using inja2
+      template:
+        src: jinjatemplate.j2
+        dest: jinjatemplateoutput.txt
+
+

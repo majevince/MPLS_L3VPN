@@ -1,0 +1,20 @@
+---
+# tasks file for config_ospfv2
+- name: Get IP addresses on Router 
+  ios_command:
+    commands:
+     - show interfaces
+  wait_for:
+     - result[1] contains Loopback0
+
+- name: configure ospfv2
+  ios_command:
+    commands:
+      - enable
+      - configure terminal
+      - router ospf "{{ process_id }}"
+      - 
+      
+      router-id "{{ loopback_int_ip  }}"
+      - network {{ loopback_int_ip }} {{ wildcard_mask }} area {{ area_id }}
+      - network {{ intefaces_ip }} {{ wildcard_mask }} area {{ area_id }}

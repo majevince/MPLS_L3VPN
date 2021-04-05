@@ -1,0 +1,13 @@
+---
+# vars file for vrf_management
+vrf_customer:
+  - name: "RED"
+    description: "RED_VRF"
+    route_distinguisher: '65001:4'
+    route_target:
+      - '65001:4'
+  - name: "BLUE"
+    description: "BLUE_VRF"
+    route_distinguisher: '65001:6'
+    route_target:
+      - '65001:6'

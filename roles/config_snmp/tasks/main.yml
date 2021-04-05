@@ -1,0 +1,4 @@
+---
+# tasks file for config_snmp
+- name: Include device specific tasks
+  include_tasks: "{{ device_os }}.yml"

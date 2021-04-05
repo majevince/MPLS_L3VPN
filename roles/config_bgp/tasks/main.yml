@@ -1,0 +1,4 @@
+---
+# tasks file for config_bgp
+- name: " TASK Main: Including Device Specific Tasks"
+  include_tasks: "{{ device_os }}.yml"

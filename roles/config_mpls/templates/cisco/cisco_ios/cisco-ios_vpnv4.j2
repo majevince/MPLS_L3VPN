@@ -1,0 +1,5 @@
+router bgp {{ asn }}
+ address-family vpnv4
+ {% for neighbor in vpnv4_neighbors %}
+ neighbor {{ neighbor }} activate
+ {% endfor %}

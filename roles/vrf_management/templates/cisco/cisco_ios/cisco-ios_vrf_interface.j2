@@ -1,0 +1,6 @@
+{% for vrff in vrf_forwarding %}
+interface {{ vrff.name }}
+ ip vrf forwarding {{ vrff.vrf }}
+ ip address {{ vrff.cust_ip }} {{ vrff.cust_mask }}
+ no shutdown
+{% endfor %}

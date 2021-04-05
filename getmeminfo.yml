@@ -1,0 +1,13 @@
+---
+- hosts: test
+  gather_facts: true
+  connection: local
+  tasks:
+    - name: "TASK 1: run show version on the routers"
+      ios_command:
+        commands: show version
+      register: output
+
+    - name: print output
+      debug:
+        var: output

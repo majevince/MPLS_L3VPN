@@ -1,0 +1,4 @@
+router bgp {{ asn }}
+ {% for net in bgp_advertise_networks %}
+ network {{ net.network }} mask {{ net.mask }}
+ {% endfor %}

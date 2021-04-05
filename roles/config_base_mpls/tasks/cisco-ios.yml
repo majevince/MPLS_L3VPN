@@ -1,0 +1,32 @@
+---
+# tasks file for config_ospfv2
+- name: "TASK 1: Configuring ospfv2 process"
+  cisco.ios.ios_config:
+    lines:
+      - router ospf {{ process_id }}
+
+- name: "TASK 2: Configuring ospfv2 router-id"
+  cisco.ios.ios_config:
+    lines:
+      - router-id {{ loopback_int_ip }}
+    parents: router ospf {{ process_id }}
+
+- name: "TASK 3: Advertising Loopback into OSPFv2"
+  cisco.ios.ios_config:
+    lines:
+      - network {{ loopback_int_ip }} {{ wildcard_mask }} area {{ area_id }}
+    parents: router ospf {{ process_id }}
+
+- name: "TASK 4: Advertising Other Interfaces into OSPFv2"
+  cisco.ios.ios_config:
+    lines:
+      - ip ospf {{ process_id }} area {{ item.intf_area_id }}
+      - ip ospf network {{ item.intf_network_type }}
+    parents: interface {{ item.name }}
+  with_items:
+    - "{{ ospf_links }}"
+
+- name: "TASK End: Write Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - do write

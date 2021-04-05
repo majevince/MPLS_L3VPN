@@ -1,0 +1,21 @@
+---
+- hosts: controller
+  tasks:
+    - name: ansible jinja filters
+      debug:
+        msg: >
+              [1, 2, 3, 4, 5]
+
+              =====MIN=======
+              {{ [1, 2, 3, 4, 5] | min }}
+              
+              =====MAX==========
+              {{ [1, 2, 3, 4, 5] | max }}
+
+              =====UNIQUE=======
+              {{ [1, 1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 4, 5] | unique }}
+
+              =====SPLITHOSTNAME====
+
+              {{ "https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html" | urlsplit('hostname') }}
+

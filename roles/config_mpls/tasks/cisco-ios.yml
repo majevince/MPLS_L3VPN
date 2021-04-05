@@ -1,0 +1,18 @@
+---
+# tasks file for config_mpls
+- name: "TASK 1: Configuring MPLS LDP"
+  cisco.ios.ios_config:
+    lines:
+      - mpls ldp autoconfig
+    parents: router ospf {{ process_id }}
+  when: mpls_igp is defined
+
+- name: "TASK 2: Activating VPNv4 Address Family for MPLS PE"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_vpnv4.j2 
+  when: mpls_vpnv4 is defined
+
+- name: "TASK End: Write Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - do write

@@ -1,0 +1,65 @@
+---
+# tasks file for gitlab
+- name: installing dependencies for gitlab
+  dnf:
+    name: "{{ pkgs }}"
+    state: present
+
+- name: ensuring sshd is started
+  systemd:
+    name: sshd
+    state: started
+    enabled: yes
+
+- name: ensuring firewalld is running
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Open ports for http and https
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: true
+  loop:
+    - 80/tcp
+    - 22/tcp
+    - 443/tcp
+
+- name: change listing ipv6 address setting
+  lineinfile:
+    path: /etc/postfix/main.cf
+    regex: '^#inet_interfaces = all'
+    line: 'inet_interfaces = 127.0.0.1,192.168.56.34'
+
+- name: start postfix services
+  systemd:
+    name: postfix
+    state: started
+    enabled: yes
+
+- name: check for installed gitlab script "script.rpm.sh"
+  stat:
+    path: /root/script.rpm.sh
+  register: script
+
+- debug: var=script.stat.exists
+
+- name: Download script because script is not available.
+  get_url:
+    url: https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh
+    dest: /root/script.rpm.sh
+  when: script.stat.exists == false
+
+- name: Executing Install script
+  shell: /root/script.rpm.sh | sudo bash
+  when: script.stat.exists == false
+
+- name: Setup environment variables and install gitlab-ce
+  dnf:
+   name: gitlab-ce
+   state: present
+  environment:
+    EXTERNAL_URL: http://master.example.com

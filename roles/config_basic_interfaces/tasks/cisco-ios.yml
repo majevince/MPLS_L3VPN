@@ -1,0 +1,17 @@
+---
+# tasks file for config_basic_interfaces
+- name: "TASK 1: Configuring Interfaces"
+  cisco.ios.ios_config:
+    lines:
+      - description "{{ item.description }}"
+      - ip address {{ item.ip_addr }} {{ item.sm_mask }}
+      - ip mtu {{ item.mtu }}
+      - no shutdown
+    parents: interface {{ item.name }}
+  with_items: 
+    - "{{ interfaces }}"
+
+- name: "TASK 2: Save Configurations"
+  cisco.ios.ios_config:
+    lines:
+      - do write

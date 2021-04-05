@@ -1,0 +1,4 @@
+---
+# tasks file for config_basic_interface
+- name: Including Device Specific Tasks
+  include_tasks: "{{ device_os }}.yml"

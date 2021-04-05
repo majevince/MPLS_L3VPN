@@ -1,0 +1,14 @@
+[controller]
+master
+[prouters]
+p1
+p2
+p3
+p4
+[perouters]
+pe1
+pe2
+pe3
+pe4
+[test]
+test1

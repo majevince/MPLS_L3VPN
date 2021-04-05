@@ -1,0 +1,67 @@
+---
+# tasks file for config_bgp
+- name: "TASK 1: Configuring bgp process"
+  cisco.ios.ios_config:
+    lines:
+      - router bgp {{ asn }}
+
+- name: "TASK 2: Configuring bgp router-id"
+  cisco.ios.ios_config:
+    lines:
+      - bgp router-id {{ router_id }}
+    parents: router bgp {{ asn }}
+
+- name: "TASK 3: Configuring BGP Peer-group"
+  cisco.ios.ios_config:
+    lines:
+      - neighbor {{ item.peer_group }} peer-group
+      - neighbor {{ item.peer_group }} remote-as {{ item.remote_asn }}
+      - neighbor {{ item.peer_group }} update-source {{ item.update_source }}
+      - neighbor {{ item.peer_group }} next-hop-self
+      - neighbor {{ item.peer_group }} soft-reconfiguration inbound
+    parents: router bgp {{ asn }}
+  with_items:
+    - "{{ bgp_external_peers }}"
+  when: bgp_external_peers is defined
+
+- name: "TASK 4: Configure External BGP peer-group Neighbors"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_bgp.j2
+  when: bgp_external_peers is defined
+
+- name: "TASK 5: Configuring Internal BGP Peer-group"
+  cisco.ios.ios_config:
+    lines:
+      - neighbor {{ item.peer_group }} peer-group
+      - neighbor {{ item.peer_group }} remote-as {{ item.remote_asn }}
+      - neighbor {{ item.peer_group }} update-source {{ item.update_source }}
+      - neighbor {{ item.peer_group }} next-hop-self
+      - neighbor {{ item.peer_group }} soft-reconfiguration inbound
+    parents: router bgp {{ asn }}
+  with_items:
+    - "{{ bgp_internal_peers }}"
+  when: bgp_internal_peers is defined
+
+- name: "TASK 6: Configure Internal BGP peer-group Neighbors"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_ibgp.j2
+  when: bgp_internal_peers is defined
+
+- name: "TASK 7: Configure Internal BGP route-reflector-clients"
+  cisco.ios.ios_config:
+    lines:
+      - neighbor {{ item.peer_group }} peer-group
+      - neighbor {{ item.peer_group }} route-reflector-client
+    parents: router bgp {{ asn }}
+  with_items:
+    - "{{ bgp_internal_peers }}"
+  when: ansible_bgp_role is defined
+
+- name: "TASK 8: Configure Advertise Networks into BGP Network Statement"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_net_bgp.j2
+
+- name: "TASK End: Write Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - do write

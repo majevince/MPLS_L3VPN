@@ -1,0 +1,80 @@
+####Device Specific Variables####
+
+device_os: cisco-ios
+device_type: core switch
+device_model: Nexus 7000
+net_os_version: 15.8RC1
+
+####Basic Interface Configuration####
+interfaces:
+  - name: Loopback0
+    description: "Loopback0"
+    ip_addr: 150.7.7.7
+    sm_mask: 255.255.255.255
+    mtu: 1500
+  - name: GigabitEthernet0/1
+    description: "LINK_TO_P4"
+    ip_addr: 155.1.16.8
+    sm_mask: 255.255.255.0
+    mtu: 1500
+
+####Basic OSPFv2####
+process_id: 100
+area_id: 0
+loopback_int_ip: 150.7.7.7
+loopback_int_sm: 255.255.255.255
+wildcard_mask: 0.0.0.0
+
+####OSPFv2 Adversitse Links####
+ospf_links:
+  - name: GigabitEthernet0/1
+    intf_ip: 155.1.16.8
+    intf_wildcard_mask: 0.0.0.0
+    intf_area_id: 0
+    intf_network_type: point-to-point
+####Basic BGP####
+asn: 65001
+router_id: 150.7.7.7
+bgp_internal_peers:
+  - peer_group: IBGP
+    remote_asn: 65001
+    update_source: Loopback0
+    neighbors:
+      - 150.4.4.4
+      - 150.6.6.6
+      - 150.5.5.5
+      - 150.8.8.8
+bgp_advertise_networks:
+  - network: 150.7.7.7
+    mask: 255.255.255.255
+  - network: 155.1.16.0
+    mask: 255.255.255.0
+###BASE MPLS CONFIGS####
+mpls_igp: ospf
+####MPLS VPNv4 CONFIGS####
+mpls_vpnv4: yes
+vpnv4_neighbors:
+  - 150.6.6.6
+  - 150.5.5.5
+  - 150.8.8.8
+####VRF FORWARDING CONFIGS####
+vrf_forwarding:
+  - name: GigabitEthernet0/2
+    vrf: RED
+    cust_ip: 10.0.2.1
+    cust_mask: 255.255.255.0
+  - name: GigabitEthernet0/3
+    vrf: BLUE
+    cust_ip: 172.16.2.1
+    cust_mask: 255.255.255.0
+####VRF CUSTOMER ROUTING####
+#OSPF
+vrf_cust_ospf:
+   - name: GigabitEthernet0/2
+     vrf: RED
+     cust_ospf_pid: 1001
+     cust_ospf_area: 2
+   - name: GigabitEthernet0/3
+     vrf: BLUE
+     cust_ospf_pid: 1002
+     cust_ospf_area: 4

@@ -1,0 +1,25 @@
+---
+# tasks file for config_vrf_management
+- name: "TASK 1: Configuring vrf_management on PE"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_vrf_management.j2
+
+- name: "TASK 2: Configuring interface vrf_management on PE"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_vrf_interface.j2
+  when: vrf_forwarding is defined 
+
+- name: "TASK 3: Configuring OSPF Customer Routing on PE"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_vrf_cust_ospf.j2
+  when: vrf_cust_ospf is defined 
+
+- name: "TASK 4: Configuring OSPF-BGP Customer Redistribution on PE"
+  cisco.ios.ios_config:
+    src: templates/cisco/cisco_ios/cisco-ios_vrf_cust_redistribution.j2
+  when: vrf_cust_ospf is defined 
+
+- name: "TASK End: Write Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - do write

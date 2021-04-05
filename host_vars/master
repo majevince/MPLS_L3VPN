@@ -1,0 +1,4 @@
+device_os: cisco_ios
+device_type: core switch
+device_model: Cisco 6500
+net_os_version: 15.8RC1

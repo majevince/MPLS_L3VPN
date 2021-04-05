@@ -1,0 +1,5 @@
+{% for route in vrf_cust_ospf %}
+interface {{ route.name }}
+ ip ospf {{ route.cust_ospf_pid }} area {{ route.cust_ospf_area }}
+ no shutdown
+{% endfor %}

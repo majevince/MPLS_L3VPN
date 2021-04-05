@@ -1,0 +1,9 @@
+#!/bin/bash
+git_version=$(git --version | awk '{ print $3 }')
+httpd_version=$(httpd -version | head -n 1 | awk '{ print $3 }')
+
+cat << EOF
+{ "Git_Version": $git_version,
+  "httpd_Version": $httpd_version
+}
+EOF

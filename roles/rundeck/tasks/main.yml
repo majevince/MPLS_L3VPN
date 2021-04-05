@@ -1,0 +1,50 @@
+---
+# tasks file for rundeck
+- name: installing java
+  dnf:
+    name: java-1.8.0
+    state: present
+
+- name: setup repo for rundeck
+  dnf:
+    name: https://repo.rundeck.org/latest.rpm
+    state: present
+    disable_gpg_check: yes
+
+- name: install rundeck
+  dnf:
+    name: rundeck
+    state: present
+
+- name: configuration template for rundeck
+  template:
+    src: templates/rundeck-config.j2
+    dest: /etc/rundeck/rundeck-config.properties
+  notify: restart rundeck
+
+- name: configure framework properties
+  template:
+    src: templates/rundeck-framework-properties.j2
+    dest: /etc/rundeck/framework.properties
+  notify: restart rundeck
+
+- name: service rundeck
+  systemd:
+    name: rundeckd
+    state: started
+    enabled: yes
+
+- name: ensuring firewalld is running
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: Open ports for http and https
+  firewalld:
+    port: "{{ item }}"
+    permanent: yes
+    state: enabled
+    immediate: true
+  loop:
+    - 4440/tcp

@@ -1,0 +1,10 @@
+{% for route in vrf_cust_ospf %}
+router bgp {{ asn }}
+ address-family ipv4 unicast vrf {{ route.vrf }}
+ redistribute ospf {{ route.cust_ospf_pid }}
+{% endfor %}
+
+{% for route in vrf_cust_ospf %}
+router ospf {{ route.cust_ospf_pid }}
+ redistribute bgp {{ asn }} subnets
+{% endfor %}

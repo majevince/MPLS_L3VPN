@@ -1,0 +1,6 @@
+- name: setup gitlab
+  hosts: controller
+  become: true
+  roles:
+    - gitlab
+    - rundeck

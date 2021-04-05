@@ -1,0 +1,8 @@
+---
+# defaults file for gitlab
+pkgs:
+  - curl
+  - policycoreutils
+  - openssh-server
+  - openssh-clients
+  - postfix

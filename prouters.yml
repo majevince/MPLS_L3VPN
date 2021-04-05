@@ -1,0 +1,7 @@
+---
+- hosts: prouters
+  roles:
+    - config_basic_interfaces
+    - config_ospfv2
+    - config_bgp
+    - config_mpls

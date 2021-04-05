@@ -1,0 +1,7 @@
+---
+- hosts: test
+  roles:
+    - vrf_management
+      #- config_basic_interfaces
+      #- config_ospfv2
+      #- config_bgp

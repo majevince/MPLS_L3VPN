@@ -1,0 +1,8 @@
+{% for vrf in vrf_customer %}
+ip vrf {{ vrf.name }}
+ description {{ vrf.description }}
+ rd {{ vrf.route_distinguisher }}
+ {% for rt in vrf.route_target %}
+ route-target {{ rt }}
+ {% endfor %}
+{% endfor %}

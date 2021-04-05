@@ -1,0 +1,101 @@
+#ansible_connection: local
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: cisco.ios.ios
+ansible_user: admin
+ansible_password: admin
+ansible_become: yes
+ansible_become_method: enable
+ansible_become_password: admin
+####Basic Interface Configuration####
+interfaces:
+  - name: Loopback0
+    description: "Loopback0"
+    ip_addr: 1.1.1.1
+    sm_mask: 255.255.255.255
+    mtu: 1500
+  - name: GigabitEthernet2
+    description: "LINK_TO_NEXT_ROUTER"
+    ip_addr: 192.168.57.35
+    sm_mask: 255.255.255.0
+    mtu: 1500
+  - name: GigabitEthernet3
+    description: "LINK_TO_NEXT_ROUTER"
+    ip_addr: 192.168.58.35
+    sm_mask: 255.255.255.0
+    mtu: 1500
+####Basic OSPFv2####
+process_id: 100
+area_id: 0
+loopback_int_ip: 1.1.1.1
+loopback_int_sm: 255.255.255.255
+wildcard_mask: 0.0.0.0
+####OSPFv2 Adversitse Links####
+ospf_links:
+  - name: GigabitEthernet1
+    intf_ip: 192.168.56.34
+    intf_wildcard_mask: 0.0.0.0
+    intf_area_id: 0 
+    intf_network_type: point-to-point 
+  - name: GigabitEthernet2
+    intf_ip: 192.168.57.34
+    intf_wildcard_mask: 0.0.0.0
+    intf_area_id: 0 
+    intf_network_type: point-to-point 
+####Basic BGP####
+asn: 1001
+router_id: 1.1.1.1
+bgp_internal_peers:
+  - peer_group: Internal
+    remote_asn: 1001
+    update_source: Loopback0
+    neighbors:
+      - 7.7.7.7
+      - 8.8.8.8
+bgp_external_peers:
+  - peer_group: Google
+    remote_asn: 65001
+    update_source: Loopback0
+    neighbors:
+      - 2.2.2.2
+      - 3.3.3.3
+  - peer_group: Facebook
+    remote_asn: 65002
+    update_source: Loopback0
+    neighbors:
+      - 4.4.4.4
+      - 5.5.5.5
+bgp_advertise_networks:
+  - network: 1.1.1.1
+    mask: 255.255.255.255
+  - network: 192.168.56.0
+    mask: 255.255.255.0
+  - network: 192.168.57.0
+    mask: 255.255.255.0
+###BASE MPLS CONFIGS####
+mpls_igp: ospf
+####MPLS VPNv4 CONFIGS####
+mpls_vpnv4: yes
+vpnv4_neighbors:
+  - 7.7.7.7
+  - 8.8.8.8
+####VRF FORWARDING CONFIGS####
+vrf_forwarding: 
+  - name: GigabitEthernet2
+    vrf: RED
+    cust_ip: 10.0.0.1
+    cust_mask: 255.255.255.0
+  - name: GigabitEthernet3
+    vrf: BLUE
+    cust_ip: 172.16.0.1
+    cust_mask: 255.255.255.0
+####VRF CUSTOMER ROUTING####
+#OSPF
+vrf_cust_ospf:
+   - name: GigabitEthernet2
+     vrf: RED
+     cust_ospf_pid: 1001
+     cust_ospf_area: 2
+   - name: GigabitEthernet3
+     vrf: BLUE
+     cust_ospf_pid: 1002
+     cust_ospf_area: 4

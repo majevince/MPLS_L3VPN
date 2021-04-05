@@ -1,0 +1,6 @@
+---
+# handlers file for rundeck
+- name: restart rundeck
+  systemd:
+    name: rundeckd
+    state: restarted
