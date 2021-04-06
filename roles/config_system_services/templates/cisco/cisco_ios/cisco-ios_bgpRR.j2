@@ -1,0 +1,6 @@
+router bgp {{ asn }}
+ {% for peer in bgp_peers %}
+ {% for list_nei in peer.neighbors %}
+ neighbor {{ list_nei }} route-reflector-client
+ {% endfor %}
+ {% endfor %}

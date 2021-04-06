@@ -1,0 +1,40 @@
+---
+# tasks file for config_system_services
+- name: "TASK 1: Configuring snmp community process"
+  cisco.ios.ios_config:
+    lines:
+      - snmp-server community {{ snmp_public }} ro
+      - snmp-server community {{ snmp_private }} rw
+      - snmp-server host {{ snmp_host }} version 2c {{ snmp_community_string }}
+      - snmp-server enable traps
+  when: snmp_public is defined
+
+- name: "TASK 2: Configuring NTP Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - ntp server {{ item }} version 2
+  with_items: 
+    - "{{ ntp_servers }}"
+  when: ntp_servers is defined
+
+- name: "TASK 3: Configuring Usernames"
+  cisco.ios.ios_config:
+    lines:
+      - username {{ item.username }} privilege {{ item.privilege }} password {{ item.password }}
+  with_items:
+    - "{{ users }}"
+  when: users is defined
+
+- name: "TASK 4: Configuring Syslog"
+  cisco.ios.ios_config:
+    lines:
+      - logging host {{ item }}
+      - logging trap 6
+  with_items:
+    - "{{ syslog_servers }}"
+  when: syslog_servers is defined
+
+- name: "TASK End: Write Configuration"
+  cisco.ios.ios_config:
+    lines:
+      - do write

@@ -13,3 +13,19 @@ net_location_site: Gwarimpa
 
 ##BGP###
 ansible_bgp_role: route-reflector
+
+####SNMP ####
+snmp_public: public
+snmp_private: private
+snmp_host: 192.168.0.44
+snmp_community_string: private
+####NTP Servers######
+ntp_servers:
+  - 192.168.0.44
+  - 1.1.1.1
+  - 2.2.2.2
+####Syslog Servers####
+syslog_servers:
+  - 192.168.0.44
+  - 1.1.1.1
+  - 2.2.2.2

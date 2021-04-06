@@ -1,0 +1,7 @@
+router bgp {{ asn }}
+ {% for peer in bgp_external_peers %}
+ neighbor {{ peer.peer_group }} peer-group
+ {% for list_nei in peer.neighbors %}
+ neighbor {{ list_nei }} peer-group {{ peer.peer_group }}
+ {% endfor %}
+ {% endfor %}

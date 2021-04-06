@@ -2,6 +2,7 @@
 - hosts: prouters
   roles:
     - config_basic_interfaces
+    - config_system_services
     - config_ospfv2
     - config_bgp
     - config_mpls

@@ -12,5 +12,31 @@ net_location: Abuja
 net_location_site_id: ABCD-0001-EFGH-001
 net_location_site: Gwarimpa
 
+####USERNAME####
+users:
+  - username: admin2
+    privilege: 15
+    password: admin2
+  - username: admin
+    privilege: 15
+    password: admin
+  - username: support
+    privilege: 15
+    password: support
 ##BGP###
 ansible_bgp_role: route-reflector
+####SNMP ####
+snmp_public: public
+snmp_private: private
+snmp_host: 192.168.0.44
+snmp_community_string: private
+####NTP Servers######
+ntp_servers:
+  - 192.168.0.44
+  - 1.1.1.1
+  - 2.2.2.2
+####Syslog Servers####
+syslog_servers:
+  - 192.168.0.44
+  - 1.1.1.1
+  - 2.2.2.2 
