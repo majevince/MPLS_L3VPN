@@ -6,6 +6,7 @@ The following setup involves using 2 playbooks in configuring an MPLS L3 VPN top
    The P routers Ansible Playbook consists of multiple roles to allow us reuse roles across the entire topology.
    These roles are:
     - config_basic_interfaces
+    - config_system_services
     - config_ospfv2
     - config_bgp
     - config_mpls
@@ -16,6 +17,7 @@ The following setup involves using 2 playbooks in configuring an MPLS L3 VPN top
  the entire topology.
    These roles are:
     - config_basic_interfaces
+    - config_system_services
     - config_ospfv2
     - config_bgp
     - config_mpls
