@@ -12,3 +12,11 @@ pe3
 pe4
 [test]
 test1
+[pjunos]
+p1-junos
+[pejunos]
+pe1-junos
+pe2-junos
+[junos:children]
+pjunos
+pejunos

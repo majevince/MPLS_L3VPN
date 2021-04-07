@@ -1,5 +1,6 @@
-- name: setup gitlab
-  hosts: controller
+---
+#Setting up services for gitlab and rundeck on controller
+- hosts: controller
   become: true
   roles:
     - gitlab

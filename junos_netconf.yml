@@ -1,0 +1,10 @@
+---
+- hosts: junos
+  tasks:
+    - name: "TASK 1 Enabling Junos NETCONF"
+      junipernetworks.junos.junos_netconf:
+        netconf_port: 830
+        state: present
+      vars:
+        ansible_connection: network_cli
+      tags: junosnetconf 
