@@ -1,0 +1,14 @@
+---
+- hosts: test
+  gather_facts: no
+  collections:
+    - company.systemtools_collections 
+  tasks:
+    - include_role:
+        name: ping 
+      #roles:
+      #- config_system_services
+      #- vrf_management
+      #- config_basic_interfaces
+      #- config_ospfv2
+      #- config_bgp

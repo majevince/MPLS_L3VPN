@@ -1,0 +1,12 @@
+---
+# tasks file for config_basic_interfaces
+- name: "TASK 1: Configuring Interfaces"
+  junipernetworks.junos.junos_l3_interfaces:
+    config:
+    - name: "{{ item.name }}"
+      ipv4:
+      - address: "{{ item.ip_addr }}/{{ item.sm_mask }}" 
+    state: merged
+  with_items: "{{ interfaces }}" 
+
+- name: "TASK 2: Save Configurations"

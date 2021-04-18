@@ -8,31 +8,31 @@ net_os_version: 20.3R1.8
 ansible_ssh_private_key_file: /home/vagrant/.ssh/id_rsa 
 ####Basic Interface Configuration####
 interfaces:
-  - name: Loopback0
+  - name: Lo0
     description: "Loopback0"
-    ip_addr: 150.1.1.1
-    sm_mask: 255.255.255.255
+    ip_addr: 160.1.1.1
+    sm_mask: 32
     mtu: 1500
-  - name: GigabitEthernet0/1
-    description: "LINK_TO_P2"
-    ip_addr: 155.1.12.1
-    sm_mask: 255.255.255.0
-    mtu: 1500
-  - name: GigabitEthernet0/2
+  - name: ge-0/0/0
     description: "LINK_TO_PE1"
-    ip_addr: 155.1.17.1
-    sm_mask: 255.255.255.0
+    ip_addr: 165.1.12.1
+    sm_mask: 24
     mtu: 1500
-  - name: GigabitEthernet0/3
+  - name: ge-0/0/1
+    description: "LINK_TO_PE2"
+    ip_addr: 165.1.17.1
+    sm_mask: 24
+    mtu: 1500
+  - name: ge-0/0/2
     description: "LINK_TO_P3"
-    ip_addr: 155.1.13.1
-    sm_mask: 255.255.255.0
+    ip_addr: 165.1.13.1
+    sm_mask: 24
     mtu: 1500
 
 ####Basic OSPFv2####
 process_id: 100
 area_id: 0
-loopback_int_ip: 150.1.1.1
+loopback_int_ip: 160.1.1.1
 loopback_int_sm: 255.255.255.255
 wildcard_mask: 0.0.0.0
 
